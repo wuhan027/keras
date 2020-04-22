@@ -22,7 +22,9 @@ import numpy as np
 import random
 import sys
 import io
+import os
 
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 path = get_file(
     'nietzsche.txt',
     origin='https://s3.amazonaws.com/text-datasets/nietzsche.txt')
@@ -104,9 +106,8 @@ def on_epoch_end(epoch, _):
             sys.stdout.flush()
         print()
 
+
 print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 
-model.fit(x, y,
-          batch_size=128,
-          epochs=60,
-          callbacks=[print_callback])
+model.fit(x, y, batch_size=128, epochs=60, callbacks=[print_callback])
+model.save()
